@@ -736,3 +736,7 @@ select:disabled {
         display: none
     }
 }
+
+.mostrar{
+    display: grid;
+}
