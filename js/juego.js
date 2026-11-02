@@ -12,75 +12,56 @@
 const panelInicio = document.querySelector("#panel-inicio")
 const iniciar = document.querySelector("#iniciar")
 const escenario = document.querySelector("#escenario")
+const suelo = document.querySelector("#suelo")
 const resultos = document.querySelector("#resueltos")
 
 
-const personajes = []
+const personajes = [
+    {id: 0, posicion: {x: 0, y: -80}, estado: "cayendo", jugador: document.querySelector(`.personaje0`)},
+    {id: 1, posicion: {x: 0, y: -80}, estado: "cayendo", jugador: document.querySelector(`.personaje1`)},
+    {id: 2, posicion: {x: 0, y: -80}, estado: "cayendo", jugador: document.querySelector(`.personaje2`)},
+    {id: 3, posicion: {x: 0, y: -80}, estado: "cayendo", jugador: document.querySelector(`.personaje3`)},
+]
 
 
 
 
 // VARIABLE VELOCIAD 
-let velocidad = 1000
+let velocidad = 1
 let velocidadCaida = 4
 
 
 
 
 iniciar.addEventListener("click", empezarPartida)
+
 function empezarPartida(){
     panelInicio.style.display = "none"
-    let personas = 0
-
-
-    let interval = setInterval(() => {
-        personas++
-        let posX = Math.floor(Math.random() * escenario.offsetWidth)
-
-        personajes.push({posicion: {x: posX, y: 0}, estado: "cayendo",})
-        escenario.innerHTML += `<img src="img/cayendo.gif" class="personaje personaje${personajes}" data-id="${personajes}" style="position: absolute, --x: ${personajes[personas - 1].posicion.x}px; --y: ${personajes[personas - 1].posicion.y}px; left: ${personajes[personas - 1].posicion.x}px;">`
-        resultos.textContent = personas
-       
-        let personaje = document.querySelector(`.personaje${personajes}`)
-
-
-        if(personas >= 50){
-            clearInterval(interval)
-        }
-    }, velocidad);
-}
-
-
-
-const dificultades = {
-    Facil: {
-        velMin: 2,
-        velMax: 4,
-        Aparicion: "3200ms"
-    },
-    Normal: {
-        velMin: 3,
-        velMax: 7,
-         Aparicion: "3000ms"
-    },
-    Dificil: {
-         velMin: 5,
-         velMax: 10,
-         Aparicion: "1200ms"
+    for(let i = 0; i<personajes.length; i++){
+        let posX = Math.floor(Math.random() * escenario.offsetWidth);
+        personajes[i].posicion.x = posX;
+        escenario.innerHTML += `<img src="img/cayendo.gif" class="personaje personaje${i}" data-id="${i}" style="position: absolute; top:0px ; left: ${posX}px;">`
     }
+    setInterval(() =>{
+        for(let i = 0; i < personajes.length; i++){
+            if(personajes[i].posicion.y<escenario.offsetHeight - suelo.offsetHeight - 127){
+                personajes[i].posicion.y += 2;
+                document.querySelector(`.personaje${i}`).style.top = personajes[i].posicion.y + "px"    
+            }
+                    
+        }
+    }, 20)
 }
-const velocidad = (velMin, velMax)=> Math.floor(Math.random() * velMax) + velMin
-//Funcion empezar caida -> recibira el personaje que el sergio enviara
-//Recibirá el valor y con eso dictara como caera
-function EmpezarCaida(personaje){
-    //
-    let posX = 0
-    setInterval(() =>{ //esto lo hace cada 20 segundos
-        posX += dificultades[dificultad]
-        const caida = velocidad (dificultades) 
-        personaje.style.top = posX + "px"
-    }, 20);
 
+function generarPersonajes(){
+    
+    hola();
 }
+function hola(){
+    
+}
+
+
+
 
 
